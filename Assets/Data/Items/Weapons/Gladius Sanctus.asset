@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9abdc6dd75dde49b1c2ec7b739bcdb, type: 3}
+  m_Name: Gladius Sanctus
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
+  itemName: Gladius Sanctus
+  id: 0
+  description: 
+  itemSize: {x: 1, y: 1}
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  attacks:
+  - attackName: Left Swing
+    animationClip: {fileID: 7400000, guid: 30a02ab8a68cd294695e64059bfde137, type: 2}
+    direction: 1
+    projectileForce: 0
+    useHitbox: 1
+    attackDelay: 0.38333333
+    damage: 10
+    stunTime: 0.5
+    camShakeIntensity: 3
+    camShakeDuration: 0.5
+    maxChargeTime: 1
+    chargeSpeed: 0.2
+    chargeDamageMultiplier: 2
+  - attackName: Right Swing
+    animationClip: {fileID: 7400000, guid: 7cf44fb0814eb09419a70557fa07f9fc, type: 2}
+    direction: 1
+    projectileForce: 0
+    useHitbox: 1
+    attackDelay: 0.38333333
+    damage: 10
+    stunTime: 0.5
+    camShakeIntensity: 3
+    camShakeDuration: 0.5
+    maxChargeTime: 1
+    chargeSpeed: 0.2
+    chargeDamageMultiplier: 2
+  range: 3
+  attackRate: 1
+  attackSound: {fileID: 8300000, guid: 4dc4d35a236051d4aa1c7d237c725994, type: 3}
+  contactSound: {fileID: 8300000, guid: c1109c8783b145544a54e6168f3bbd26, type: 3}
+  attackSoundPitchRange: {x: 0.7, y: 0.9}
+  maxSlots: 5
+  blockProtectionPercent: 50
