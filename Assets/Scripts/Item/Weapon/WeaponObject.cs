@@ -41,8 +41,6 @@ public class WeaponObject : ItemObject
         attackAnimation.Rewind();
         inAttack = false;
         isBlocking = false;
-        extraPosOffset = Vector3.zero;
-        extraRotOffset = Quaternion.identity;
     }
 
     protected override void Update()
@@ -66,11 +64,16 @@ public class WeaponObject : ItemObject
     {
         isBlocking = !inAttack && !IsBusy() && InputManager.Actions.Player.Block.IsPressed();
 
+        if (InputManager.Actions.Player.Block.IsPressed())
+        {
+            Debug.Log(isBlocking);
+        }
+
         Vector3 targetPos = isBlocking ? blockPositionOffset : Vector3.zero;
         Quaternion targetRot = isBlocking ? Quaternion.Euler(blockRotationOffset) : Quaternion.identity;
 
-        extraPosOffset = Vector3.Lerp(extraPosOffset, targetPos, Time.deltaTime * blockTransitionSpeed);
-        extraRotOffset = Quaternion.Slerp(extraRotOffset, targetRot, Time.deltaTime * blockTransitionSpeed);
+        posOffset = Vector3.Lerp(posOffset, targetPos, Time.deltaTime * blockTransitionSpeed);
+        rotOffset = Quaternion.Slerp(rotOffset, targetRot, Time.deltaTime * blockTransitionSpeed);
     }
 
     WeaponContext CreateWeaponContext(Attack attack)

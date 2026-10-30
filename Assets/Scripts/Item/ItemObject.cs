@@ -14,9 +14,12 @@ public class ItemObject : MonoBehaviour
 
     float movementVelocity = 0f;
     float currentMovement = 0f;
+    
+    Vector3 baseLocalPosition;
+    Quaternion baseLocalRotation;
 
-    protected Vector3 extraPosOffset;
-    protected Quaternion extraRotOffset = Quaternion.identity;
+    protected Vector3 posOffset = Vector3.zero;
+    protected Quaternion rotOffset = Quaternion.identity;
 
     public ItemSO ItemData => item;
 
@@ -26,12 +29,16 @@ public class ItemObject : MonoBehaviour
         playerController = GetComponentInParent<PlayerController>();
         cameraTransform = GetComponentInParent<Camera>().transform;
 
+        baseLocalPosition = transform.localPosition;
+        baseLocalRotation = transform.localRotation;
+
         CursorManager.LockCursor();
     }
 
     protected virtual void Update()
     {
         HandleMovementAnimation();
+        HandleItemPositionAndRotation();
     }
 
     void HandleMovementAnimation()
@@ -45,5 +52,11 @@ public class ItemObject : MonoBehaviour
 
         currentMovement = Mathf.SmoothDamp(currentMovement, targetMovement, ref movementVelocity, 0.1f);
         movementAnimator.SetFloat("Movement", currentMovement);
+    }
+
+    void HandleItemPositionAndRotation()
+    {
+        transform.localPosition = baseLocalPosition + posOffset;
+        transform.localRotation = baseLocalRotation * rotOffset;
     }
 }
