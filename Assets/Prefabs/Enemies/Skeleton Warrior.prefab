@@ -2955,6 +2955,7 @@ MonoBehaviour:
   threat: 1
   thinkInterval: 0.5
   animator: {fileID: 8620166371696577679}
+  hitAnimationLength: 0.5
   hitVFXParticles:
   - {fileID: 5161991466970692268}
   - {fileID: 2595481967574431341}

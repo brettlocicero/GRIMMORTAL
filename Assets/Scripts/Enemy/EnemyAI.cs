@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Animator animator;
+    [SerializeField] float hitAnimationLength = 0.5f;
 
     [Header("FX & Audio")]
     [SerializeField] ParticleSystem[] hitVFXParticles;
@@ -116,7 +117,7 @@ public class EnemyAI : MonoBehaviour
         movement.Stop();
         stunEndTime = Time.time + duration;
 
-        PlayHitAnimation(attackDirection);
+        PlayHitAnimation(attackDirection, duration);
     }
 
     public void PlayAttackAnimation()
@@ -124,9 +125,10 @@ public class EnemyAI : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
-    void PlayHitAnimation(AttackDirection attackDirection)
+    void PlayHitAnimation(AttackDirection attackDirection, float duration)
     {
         animator.ResetTrigger("Attack");
+        animator.SetFloat("HitSpeed", hitAnimationLength / duration);
 
         switch (attackDirection)
         {
