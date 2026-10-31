@@ -33,7 +33,7 @@ MonoBehaviour:
     chargeDamageMultiplier: 2
   - attackName: Right Swing
     animationClip: {fileID: 7400000, guid: 7cf44fb0814eb09419a70557fa07f9fc, type: 2}
-    direction: 1
+    direction: 2
     projectileForce: 0
     useHitbox: 1
     attackDelay: 0.38333333

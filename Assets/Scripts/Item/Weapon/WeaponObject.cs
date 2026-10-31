@@ -64,11 +64,6 @@ public class WeaponObject : ItemObject
     {
         isBlocking = !inAttack && !IsBusy() && InputManager.Actions.Player.Block.IsPressed();
 
-        if (InputManager.Actions.Player.Block.IsPressed())
-        {
-            Debug.Log(isBlocking);
-        }
-
         Vector3 targetPos = isBlocking ? blockPositionOffset : Vector3.zero;
         Quaternion targetRot = isBlocking ? Quaternion.Euler(blockRotationOffset) : Quaternion.identity;
 
@@ -177,7 +172,7 @@ public class WeaponObject : ItemObject
                 if (hit.TryGetComponent(out EnemyAI enemy))
                 {
                     Vector3 hitPoint = hit.ClosestPoint(hitSpot.position);
-                    // enemy.TakeDamage(weaponContext.Damage, weaponContext.StunTime, attack.direction, hitPoint);
+                    enemy.TakeDamage(weaponContext.Damage, weaponContext.StunTime, attack.direction);
                     hitEnemies.Add(enemy);
                 }
             }
