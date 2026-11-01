@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public Action<EnemyAI> OnEnemyKilled;
+    public static Action<EnemyAI> OnAnyEnemyKilled;
 
     [Header("Components")]
     [SerializeField] EnemyMovement movement;
@@ -169,6 +170,7 @@ public class EnemyAI : MonoBehaviour
         PlayDeathFX();
 
         OnEnemyKilled?.Invoke(this);
+        OnAnyEnemyKilled?.Invoke(this);
         Destroy(gameObject);
     }
 

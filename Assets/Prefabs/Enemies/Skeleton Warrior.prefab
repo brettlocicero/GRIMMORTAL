@@ -2960,7 +2960,7 @@ MonoBehaviour:
   - {fileID: 5161991466970692268}
   - {fileID: 2595481967574431341}
   hitSFX: {fileID: 8300000, guid: 7ce7ca5f763ee6f42bab52d1e71291bf, type: 3}
-  deathVFXPrefab: {fileID: 0}
+  deathVFXPrefab: {fileID: 2375243330899510526, guid: 2ca0324ebb09e4c4a865b580b48478da, type: 3}
   deathSFX: {fileID: 8300000, guid: fd1311da168b8584f978ba8bd054e726, type: 3}
   audioSource: {fileID: 7679946380430543039}
 --- !u!114 &4943892545165527718

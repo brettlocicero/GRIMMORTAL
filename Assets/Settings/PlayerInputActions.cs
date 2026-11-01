@@ -201,6 +201,36 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Wrath1"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e7e1a92-edf1-4445-bbf3-fcec6a548513"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Wrath2"",
+                    ""type"": ""Button"",
+                    ""id"": ""26455e87-d813-4b94-a664-131f742e1e3b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Wrath3"",
+                    ""type"": ""Button"",
+                    ""id"": ""01b5cacb-820b-4734-8993-e60f4520123f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -608,6 +638,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d256aa35-471a-4eaf-b656-0b0e724bcadd"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wrath1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""938f0815-1bf6-4dc0-ab3f-16ea9fdd80d4"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wrath2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f600fd3b-a147-4807-9e8d-2320a0472d49"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wrath3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1216,6 +1279,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
+        m_Player_Wrath1 = m_Player.FindAction("Wrath1", throwIfNotFound: true);
+        m_Player_Wrath2 = m_Player.FindAction("Wrath2", throwIfNotFound: true);
+        m_Player_Wrath3 = m_Player.FindAction("Wrath3", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1320,6 +1386,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Block;
+    private readonly InputAction m_Player_Wrath1;
+    private readonly InputAction m_Player_Wrath2;
+    private readonly InputAction m_Player_Wrath3;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1375,6 +1444,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Block".
         /// </summary>
         public InputAction @Block => m_Wrapper.m_Player_Block;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Wrath1".
+        /// </summary>
+        public InputAction @Wrath1 => m_Wrapper.m_Player_Wrath1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Wrath2".
+        /// </summary>
+        public InputAction @Wrath2 => m_Wrapper.m_Player_Wrath2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Wrath3".
+        /// </summary>
+        public InputAction @Wrath3 => m_Wrapper.m_Player_Wrath3;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1434,6 +1515,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Block.started += instance.OnBlock;
             @Block.performed += instance.OnBlock;
             @Block.canceled += instance.OnBlock;
+            @Wrath1.started += instance.OnWrath1;
+            @Wrath1.performed += instance.OnWrath1;
+            @Wrath1.canceled += instance.OnWrath1;
+            @Wrath2.started += instance.OnWrath2;
+            @Wrath2.performed += instance.OnWrath2;
+            @Wrath2.canceled += instance.OnWrath2;
+            @Wrath3.started += instance.OnWrath3;
+            @Wrath3.performed += instance.OnWrath3;
+            @Wrath3.canceled += instance.OnWrath3;
         }
 
         /// <summary>
@@ -1478,6 +1568,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Block.started -= instance.OnBlock;
             @Block.performed -= instance.OnBlock;
             @Block.canceled -= instance.OnBlock;
+            @Wrath1.started -= instance.OnWrath1;
+            @Wrath1.performed -= instance.OnWrath1;
+            @Wrath1.canceled -= instance.OnWrath1;
+            @Wrath2.started -= instance.OnWrath2;
+            @Wrath2.performed -= instance.OnWrath2;
+            @Wrath2.canceled -= instance.OnWrath2;
+            @Wrath3.started -= instance.OnWrath3;
+            @Wrath3.performed -= instance.OnWrath3;
+            @Wrath3.canceled -= instance.OnWrath3;
         }
 
         /// <summary>
@@ -1855,6 +1954,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBlock(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Wrath1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWrath1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Wrath2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWrath2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Wrath3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWrath3(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

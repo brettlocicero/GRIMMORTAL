@@ -1,0 +1,56 @@
+using System.Collections;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "WrathOfTheMeteor", menuName = "Scriptable Objects/Wraths/WrathOfTheMeteor")]
+public class WrathOfTheMeteorSO : WrathSO
+{
+    [Header("Meteor")]
+    [SerializeField] Meteor meteorPrefab;
+    [SerializeField] float damage = 50f;
+    [SerializeField] float stunTime = 1f;
+    [SerializeField] float fallSpeed = 30f;
+    [SerializeField, Range(10f, 90f)] float fallAngle = 55f;
+
+    [Header("Summon")]
+    [SerializeField] float duration = 10f;
+    [SerializeField] float spawnInterval = 0.3f;
+    [SerializeField] float radius = 12f;
+    [SerializeField] float spawnDistance = 50f;
+
+    public override void Activate(PlayerController player)
+    {
+        player.StartCoroutine(MeteorRoutine(player));
+    }
+
+    IEnumerator MeteorRoutine(PlayerController player)
+    {
+        WaitForSeconds wait = new(spawnInterval);
+        float endTime = Time.time + duration;
+
+        while (Time.time < endTime)
+        {
+            SpawnMeteor(player.transform.position);
+            yield return wait;
+        }
+    }
+
+    void SpawnMeteor(Vector3 center)
+    {
+        Vector3 direction = GetRandomFallDirection();
+        Vector2 offset = Random.insideUnitCircle * radius;
+
+        Vector3 target = center + new Vector3(offset.x, 0f, offset.y);
+        Vector3 spawnPosition = target - direction * spawnDistance;
+
+        Meteor meteor = Instantiate(meteorPrefab, spawnPosition, Quaternion.LookRotation(direction));
+        meteor.Init(damage, stunTime, direction * fallSpeed);
+    }
+
+    Vector3 GetRandomFallDirection()
+    {
+        Vector2 horizontal = Random.insideUnitCircle.normalized;
+        float angle = fallAngle * Mathf.Deg2Rad;
+
+        return new Vector3(horizontal.x * Mathf.Cos(angle), -Mathf.Sin(angle), horizontal.y * Mathf.Cos(angle));
+    }
+}
