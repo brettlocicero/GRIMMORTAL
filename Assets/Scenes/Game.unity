@@ -696,6 +696,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SigilInventory
   startingSigils:
   - {fileID: 11400000, guid: 4e770d6df5ac0ad4fb74f02ce44437ec, type: 2}
+  - {fileID: 11400000, guid: 5c99c98e037c4d74e8a606018d73a03c, type: 2}
+  - {fileID: 11400000, guid: cf9eecd4f9dde724a8d3595ce315d38a, type: 2}
 --- !u!1 &731176274
 GameObject:
   m_ObjectHideFlags: 0

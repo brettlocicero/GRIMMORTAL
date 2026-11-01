@@ -19,6 +19,8 @@ public class WeaponObject : ItemObject
     bool isBlocking = false;
 
     WeaponSO weapon;
+    WeaponStats stats = new();
+    WeaponContext passiveContext;
     float attackTimer = 0f;
     int comboIndex = 0;
 
@@ -33,6 +35,7 @@ public class WeaponObject : ItemObject
     {
         base.Start();
         weapon = item as WeaponSO;
+        passiveContext = new WeaponContext { Stats = stats };
         audioSource = GetComponent<AudioSource>();
         cinemachineShake = CinemachineShakeManager.Instance;
     }
@@ -47,6 +50,7 @@ public class WeaponObject : ItemObject
     protected override void Update()
     {
         base.Update();
+        stats.Tick(Time.deltaTime);
         HandleBlock();
         HandleAttack();
     }
@@ -76,6 +80,7 @@ public class WeaponObject : ItemObject
     {
         return new WeaponContext
         {
+            Stats = stats,
             Damage = attack.damage,
             StunTime = attack.stunTime
         };
@@ -85,8 +90,11 @@ public class WeaponObject : ItemObject
     {
         attackTimer += Time.deltaTime;
 
+        stats.AttackRate = weapon.attackRate;
+        sigilInventory.Trigger(SigilTrigger.Passive, passiveContext);
+
         bool pressedAttack = InputManager.Actions.Player.Attack.WasPressedThisFrame();
-        bool ready = attackTimer >= weapon.attackRate;
+        bool ready = attackTimer >= stats.AttackRate;
 
         if (pressedAttack && ready && CanAttack())
         {
@@ -106,11 +114,10 @@ public class WeaponObject : ItemObject
 
         comboIndex = ++comboIndex % weapon.attacks.Length;
 
-        // Wind-up, slowed or held while the attack button is down
         yield return WindupWorker(attack);
 
         float chargePercent = attack.maxChargeTime > 0f ? chargeTime / attack.maxChargeTime : 0f;
-        weaponContext.Damage = attack.damage * Mathf.Lerp(1f, attack.chargeDamageMultiplier, chargePercent);
+        weaponContext.Damage = attack.damage * Mathf.Lerp(1f, attack.chargeDamageMultiplier, chargePercent) * stats.DamageMultiplier;
 
         sigilInventory.Trigger(SigilTrigger.OnAttack, weaponContext);
 
