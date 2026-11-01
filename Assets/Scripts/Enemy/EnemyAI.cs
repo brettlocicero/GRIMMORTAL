@@ -90,12 +90,14 @@ public class EnemyAI : MonoBehaviour
             attack.Execute(target);
     }
 
-    public bool TakeDamage(float damage, float stunTime, AttackDirection attackDirection)
+    public bool TakeDamage(float damage, float stunTime, AttackDirection attackDirection, Vector3 hitPoint)
     {
         bool killed = false;
 
         if (!isDead)
         {
+            UIManager.Instance.DisplayDamageNumber(transform, hitPoint, damage);
+
             currentHealth -= damage;
             killed = currentHealth <= 0f;
 
@@ -115,7 +117,7 @@ public class EnemyAI : MonoBehaviour
 
         return killed;
     }
-
+    
     void Stun(float duration, AttackDirection attackDirection)
     {
         attack.Cancel();

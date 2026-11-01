@@ -9,6 +9,6 @@ public class BurnDebuff : Debuff
 
     protected override void OnTick(EnemyAI target)
     {
-        target.TakeDamage(damage, 0f, AttackDirection.None);
+        target.TakeDamage(damage, 0f, AttackDirection.None, target.transform.position);
     }
 }

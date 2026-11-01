@@ -195,7 +195,9 @@ public class WeaponObject : ItemObject
 
         foreach (EnemyAI enemy in weaponContext.HitEnemies)
         {
-            if (enemy.TakeDamage(weaponContext.Damage, weaponContext.StunTime, attack.direction))
+            Vector3 hitPoint = enemy.GetComponent<Collider>().ClosestPoint(hitSpot.position);
+
+            if (enemy.TakeDamage(weaponContext.Damage, weaponContext.StunTime, attack.direction, hitPoint))
                 killedEnemies.Add(enemy);
         }
 
