@@ -8,6 +8,7 @@ public class WeaponObject : ItemObject
     [Header("Weapon References")]
     [SerializeField] Animation attackAnimation;
     [SerializeField] Transform hitSpot;
+    [SerializeField] SigilInventory sigilInventory;
 
     [Header("Block")]
     [SerializeField] Vector3 blockPositionOffset;
@@ -111,6 +112,8 @@ public class WeaponObject : ItemObject
         float chargePercent = attack.maxChargeTime > 0f ? chargeTime / attack.maxChargeTime : 0f;
         weaponContext.Damage = attack.damage * Mathf.Lerp(1f, attack.chargeDamageMultiplier, chargePercent);
 
+        sigilInventory.Trigger(SigilTrigger.OnAttack, weaponContext);
+
         cinemachineShake.ShakeCamera(attack.camShakeIntensity, attack.camShakeDuration, 0.5f, 80f);
         PlayAttackAudio();
 
@@ -159,29 +162,40 @@ public class WeaponObject : ItemObject
     void TriggerAttackHitbox(Attack attack, WeaponContext weaponContext)
     {
         Collider[] hits = Physics.OverlapSphere(hitSpot.position, weapon.range, LayerMask.GetMask("Enemy", "Breakable"));
-        HashSet<EnemyAI> hitEnemies = new();
 
         if (hits.Length > 0)
         {
-            float hitstopDuration = 0.1f;
             audioSource.PlayOneShot(weapon.contactSound);
-            StartCoroutine(HitstopWorker(attack.animationClip.name, hitstopDuration));
-
-            foreach (Collider hit in hits)
-            {
-                if (hit.TryGetComponent(out EnemyAI enemy))
-                {
-                    Vector3 hitPoint = hit.ClosestPoint(hitSpot.position);
-                    enemy.TakeDamage(weaponContext.Damage, weaponContext.StunTime, attack.direction);
-                    hitEnemies.Add(enemy);
-                }
-            }
-
-            if (hitEnemies.Count > 0)
-            {
-                weaponContext.HitEnemies = hitEnemies.ToArray();
-            }
+            StartCoroutine(HitstopWorker(attack.animationClip.name, 0.1f));
         }
+
+        weaponContext.HitEnemies = hits
+            .Select(hit => hit.GetComponent<EnemyAI>())
+            .Where(enemy => enemy != null)
+            .Distinct()
+            .ToArray();
+
+        if (weaponContext.HitEnemies.Length > 0)
+            DamageEnemies(attack, weaponContext);
+    }
+
+    void DamageEnemies(Attack attack, WeaponContext weaponContext)
+    {
+        // Runs before damage so OnHit Sigils can still modify it
+        sigilInventory.Trigger(SigilTrigger.OnHit, weaponContext);
+
+        List<EnemyAI> killedEnemies = new();
+
+        foreach (EnemyAI enemy in weaponContext.HitEnemies)
+        {
+            if (enemy.TakeDamage(weaponContext.Damage, weaponContext.StunTime, attack.direction))
+                killedEnemies.Add(enemy);
+        }
+
+        weaponContext.KilledEnemies = killedEnemies.ToArray();
+
+        if (killedEnemies.Count > 0)
+            sigilInventory.Trigger(SigilTrigger.OnKill, weaponContext);
     }
 
     IEnumerator HitstopWorker(string clipName, float duration)

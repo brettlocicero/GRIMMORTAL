@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponSO", menuName = "Scriptable Objects/Items/WeaponSO")]
 public class WeaponSO : ItemSO
 {
+    [Header("")]
     public Attack[] attacks;
 
     [Header("Stats")]
@@ -14,9 +15,6 @@ public class WeaponSO : ItemSO
     public AudioClip attackSound;
     public AudioClip contactSound;
     public Vector2 attackSoundPitchRange;
-
-    [Header("Soul Shards")]
-    public int maxSlots = 5;
 
     [Header("Block")]
     [Range(0f, 100f)] public float blockProtectionPercent = 50f;

@@ -2976,7 +2976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RigidbodyEnemyMovement
   moveSpeed: 8
-  rotationSpeed: 500
+  rotationSpeed: 5
   stoppingDistance: 2
   ignoreMovementRotation: 0
   separationRadius: 1.5

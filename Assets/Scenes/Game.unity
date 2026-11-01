@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 681326437}
   - component: {fileID: 681326440}
   - component: {fileID: 681326438}
+  - component: {fileID: 681326441}
   - component: {fileID: 681326436}
   - component: {fileID: 681326439}
   m_Layer: 7
@@ -681,6 +682,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
   maxHealth: 100
+--- !u!114 &681326441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681326435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8802fb714e814347904a16c9784f8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SigilInventory
+  startingSigils:
+  - {fileID: 11400000, guid: 4e770d6df5ac0ad4fb74f02ce44437ec, type: 2}
 --- !u!1 &731176274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,6 +1971,7 @@ MonoBehaviour:
   movementAnimator: {fileID: 7948615800731599112}
   attackAnimation: {fileID: 5980719522623118898}
   hitSpot: {fileID: 3055615418301274826}
+  sigilInventory: {fileID: 681326441}
   blockPositionOffset: {x: 0.19, y: -0.61, z: 0.03}
   blockRotationOffset: {x: 0, y: 0, z: 122.6}
   blockTransitionSpeed: 10
