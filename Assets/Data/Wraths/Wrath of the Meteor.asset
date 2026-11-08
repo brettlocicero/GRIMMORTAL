@@ -22,6 +22,6 @@ MonoBehaviour:
   fallSpeed: 100
   fallAngle: 55
   duration: 10
-  spawnInterval: 0.3
+  spawnInterval: {x: 0.3, y: 0.5}
   radius: 20
   spawnDistance: 50

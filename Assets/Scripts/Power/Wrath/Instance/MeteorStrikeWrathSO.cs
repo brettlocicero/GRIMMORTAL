@@ -13,7 +13,7 @@ public class WrathOfTheMeteorSO : WrathSO
 
     [Header("Summon")]
     [SerializeField] float duration = 10f;
-    [SerializeField] float spawnInterval = 0.3f;
+    [SerializeField] Vector2 spawnInterval;
     [SerializeField] float radius = 12f;
     [SerializeField] float spawnDistance = 50f;
 
@@ -24,7 +24,8 @@ public class WrathOfTheMeteorSO : WrathSO
 
     IEnumerator MeteorRoutine(PlayerController player)
     {
-        WaitForSeconds wait = new(spawnInterval);
+        float waitTime = Random.Range(spawnInterval.x, spawnInterval.y);
+        WaitForSeconds wait = new(waitTime);
         float endTime = Time.time + duration;
 
         while (Time.time < endTime)

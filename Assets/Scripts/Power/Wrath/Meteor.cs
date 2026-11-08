@@ -8,7 +8,9 @@ public class Meteor : MonoBehaviour
     [SerializeField] LayerMask enemyLayerMask;
     [SerializeField] GameObject explosionVFXPrefab;
     [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] AudioClip explosionSound;
 
+    AudioSource audioSource;
     Rigidbody rb;
     float damage;
     float stunTime;
@@ -16,8 +18,10 @@ public class Meteor : MonoBehaviour
 
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+        audioSource.pitch = Random.Range(0.8f, 1.2f);
     }
 
     public void Init(float damage, float stunTime, Vector3 velocity)
@@ -55,8 +59,11 @@ public class Meteor : MonoBehaviour
         GetComponent<MeshRenderer>().enabled = false;
         rb.isKinematic = true;
 
-        CinemachineShakeManager.Instance.ShakeCamera(3f, 0.5f, 0.2f, 90);
+        CinemachineShakeManager.Instance.ShakeCamera(4f, 0.25f, 1f, 90);
         Destroy(gameObject, 3f);
         triggered = true;
+
+        audioSource.Stop();
+        audioSource.PlayOneShot(explosionSound);
     }
 }
