@@ -2998,7 +2998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemyAttack
   range: 4
   minRange: 0
-  cooldown: 1
+  cooldown: 0
   attacksWhileMoving: 0
   audioSource: {fileID: 7679946380430543039}
   attackSound: {fileID: 8300000, guid: 36e95703de4904c448dc2b561d507ee3, type: 3}
@@ -3009,7 +3009,7 @@ MonoBehaviour:
     m_Bits: 128
   damage: 10
   hitTime: 0.6666667
-  duration: 1.1666667
+  duration: 1.25
 --- !u!54 &7540113765672842631
 Rigidbody:
   m_ObjectHideFlags: 0
