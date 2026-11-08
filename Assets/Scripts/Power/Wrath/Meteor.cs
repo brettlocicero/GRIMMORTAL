@@ -55,8 +55,8 @@ public class Meteor : MonoBehaviour
         GetComponent<MeshRenderer>().enabled = false;
         rb.isKinematic = true;
 
+        CinemachineShakeManager.Instance.ShakeCamera(3f, 0.5f, 0.2f, 90);
         Destroy(gameObject, 3f);
-        
         triggered = true;
     }
 }

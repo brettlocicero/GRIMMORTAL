@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   trigger: 2
   damagePerTick: 3
-  tickInterval: 0.5
-  ticks: 5
+  tickInterval: 1
+  ticks: 3
