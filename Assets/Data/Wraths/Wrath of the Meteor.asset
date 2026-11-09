@@ -24,4 +24,4 @@ MonoBehaviour:
   duration: 10
   spawnInterval: {x: 0.3, y: 0.5}
   radius: 20
-  spawnDistance: 50
+  spawnHeight: 250

@@ -15,7 +15,7 @@ public class WrathOfTheMeteorSO : WrathSO
     [SerializeField] float duration = 10f;
     [SerializeField] Vector2 spawnInterval;
     [SerializeField] float radius = 12f;
-    [SerializeField] float spawnDistance = 50f;
+    [SerializeField] float spawnHeight = 500f;
 
     public override void Activate(PlayerController player)
     {
@@ -24,14 +24,12 @@ public class WrathOfTheMeteorSO : WrathSO
 
     IEnumerator MeteorRoutine(PlayerController player)
     {
-        float waitTime = Random.Range(spawnInterval.x, spawnInterval.y);
-        WaitForSeconds wait = new(waitTime);
         float endTime = Time.time + duration;
 
         while (Time.time < endTime)
         {
             SpawnMeteor(player.transform.position);
-            yield return wait;
+            yield return new WaitForSeconds(Random.Range(spawnInterval.x, spawnInterval.y));
         }
     }
 
@@ -41,7 +39,9 @@ public class WrathOfTheMeteorSO : WrathSO
         Vector2 offset = Random.insideUnitCircle * radius;
 
         Vector3 target = center + new Vector3(offset.x, 0f, offset.y);
-        Vector3 spawnPosition = target - direction * spawnDistance;
+
+        float distance = (spawnHeight - target.y) / -direction.y;
+        Vector3 spawnPosition = target - direction * distance;
 
         Meteor meteor = Instantiate(meteorPrefab, spawnPosition, Quaternion.LookRotation(direction));
         meteor.Init(damage, stunTime, direction * fallSpeed);
