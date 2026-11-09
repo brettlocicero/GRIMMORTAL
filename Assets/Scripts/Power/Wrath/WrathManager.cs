@@ -6,6 +6,10 @@ public class WrathManager : MonoBehaviour
     [SerializeField] WrathSO[] wraths;
     [SerializeField] PlayerController player;
 
+    [Header("UI")]
+    [SerializeField] WrathSlotUI slotPrefab;
+    [SerializeField] Transform slotParent;
+
     int[] charges;
     InputAction[] inputs;
 
@@ -19,6 +23,14 @@ public class WrathManager : MonoBehaviour
             InputManager.Actions.Player.Wrath2,
             InputManager.Actions.Player.Wrath3
         };
+
+        SpawnSlots();
+    }
+
+    void SpawnSlots()
+    {
+        for (int i = 0; i < wraths.Length; i++)
+            Instantiate(slotPrefab, slotParent).Init(this, i);
     }
 
     void OnEnable()
@@ -60,5 +72,15 @@ public class WrathManager : MonoBehaviour
     {
         charges[slot] = 0;
         wraths[slot].Activate(player);
+    }
+
+    public WrathSO GetWrath(int slot)
+    {
+        return wraths[slot];
+    }
+
+    public string GetKeyName(int slot)
+    {
+        return inputs[slot].GetBindingDisplayString();
     }
 }
