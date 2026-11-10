@@ -4,15 +4,14 @@ using UnityEngine;
 public class RegionSO : ScriptableObject
 {
     [SerializeField] string regionName;
-    [SerializeField] GameObject[] props;
-    
-    public string RegionName => RegionName;
-    
-    public void GenerateRegion()
+    [SerializeField] RoomObject[] rooms;
+
+    public string RegionName => regionName;
+    public int RoomCount => rooms.Length;
+
+    public RoomObject SpawnRoom(int roomIndex, Vector3 position)
     {
-        foreach (GameObject prop in props) 
-        {
-            
-        }
+        RoomObject prefab = rooms[roomIndex];
+        return Instantiate(prefab, position, Quaternion.identity);
     }
 }
