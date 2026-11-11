@@ -15,3 +15,6 @@ MonoBehaviour:
   regionName: Deadwastes
   rooms:
   - {fileID: 4908639858610648940, guid: 9bc698730a7010147bff852c1d14cb83, type: 3}
+  skybox: {fileID: 2100000, guid: b83849c4866e093419a13d4e9a89c1c7, type: 2}
+  fogColor: {r: 0.48235294, g: 0.48235294, b: 0.48235294, a: 1}
+  sunColor: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 1}

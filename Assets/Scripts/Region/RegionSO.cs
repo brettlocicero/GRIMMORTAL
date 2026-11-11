@@ -6,6 +6,11 @@ public class RegionSO : ScriptableObject
     [SerializeField] string regionName;
     [SerializeField] RoomObject[] rooms;
 
+    [Header("Ambience")]
+    [SerializeField] Material skybox;
+    [SerializeField] Color fogColor;
+    [SerializeField] Color sunColor;
+
     public string RegionName => regionName;
     public int RoomCount => rooms.Length;
 
@@ -13,5 +18,12 @@ public class RegionSO : ScriptableObject
     {
         RoomObject prefab = rooms[roomIndex];
         return Instantiate(prefab, position, Quaternion.identity);
+    }
+
+    public void SetRegionAmbience()
+    {
+        RenderSettings.skybox = skybox;
+        RenderSettings.fogColor = fogColor;
+        RenderSettings.sun.color = sunColor;
     }
 }
