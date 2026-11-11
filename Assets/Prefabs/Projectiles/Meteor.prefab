@@ -166,6 +166,11 @@ MonoBehaviour:
   explosionVFXPrefab: {fileID: 2327731880244427718, guid: 37ad07d78355f461ab9a8f3b76b18bb5, type: 3}
   particleSystem: {fileID: 3448288292121200754}
   explosionSound: {fileID: 8300000, guid: 600ab34ac88b40846a377b867a4ec603, type: 3}
+  debrisLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  explosionForce: 30
+  upwardsModifier: 1
 --- !u!82 &7256595542794506742
 AudioSource:
   m_ObjectHideFlags: 0

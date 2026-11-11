@@ -10,6 +10,11 @@ public class Meteor : MonoBehaviour
     [SerializeField] ParticleSystem particleSystem;
     [SerializeField] AudioClip explosionSound;
 
+    [Header("Debris")]
+    [SerializeField] LayerMask debrisLayerMask;
+    [SerializeField] float explosionForce = 30f;
+    [SerializeField] float upwardsModifier = 1f;
+
     AudioSource audioSource;
     Rigidbody rb;
     float damage;
@@ -44,13 +49,8 @@ public class Meteor : MonoBehaviour
 
     void Explode(Vector3 point)
     {
-        Collider[] hits = Physics.OverlapSphere(point, explosionRadius, enemyLayerMask);
-
-        foreach (Collider hit in hits)
-        {
-            if (hit.TryGetComponent(out EnemyAI enemy))
-                enemy.TakeDamage(damage, stunTime, AttackDirection.None, enemy.transform.position);
-        }
+        DamageEnemies(point);
+        PushDebris(point);
 
         if (explosionVFXPrefab)
             Destroy(Instantiate(explosionVFXPrefab, point, Quaternion.identity), 5f);
@@ -65,5 +65,27 @@ public class Meteor : MonoBehaviour
 
         audioSource.Stop();
         audioSource.PlayOneShot(explosionSound);
+    }
+
+    void DamageEnemies(Vector3 point)
+    {
+        Collider[] hits = Physics.OverlapSphere(point, explosionRadius, enemyLayerMask);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.TryGetComponent(out EnemyAI enemy))
+                enemy.TakeDamage(damage, stunTime, AttackDirection.None, enemy.transform.position);
+        }
+    }
+
+    void PushDebris(Vector3 point)
+    {
+        Collider[] hits = Physics.OverlapSphere(point, explosionRadius, debrisLayerMask);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.attachedRigidbody)
+                hit.attachedRigidbody.AddExplosionForce(explosionForce, point, explosionRadius, upwardsModifier, ForceMode.Impulse);
+        }
     }
 }
