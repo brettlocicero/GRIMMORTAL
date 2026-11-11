@@ -6,6 +6,7 @@ public class RoomShrine : MonoBehaviour, IInteractable
     [SerializeField] RoomObject room;
     [SerializeField] float delayTime = 4f;
     [SerializeField] ParticleSystem chargeParticles;
+    [SerializeField] Animator activateAnimator;
 
     public void Interact()
     {
@@ -22,5 +23,6 @@ public class RoomShrine : MonoBehaviour, IInteractable
     void PlayActivatedAnimation()
     {
         chargeParticles.Play();
+        activateAnimator.SetTrigger("Activate");
     }
 }

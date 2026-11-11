@@ -15,7 +15,7 @@ MonoBehaviour:
   wrathName: Wrath of the Meteor
   description: Summon meteors around you for 10 seconds.
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  chargeRequired: 50
+  chargeRequired: 1
   meteorPrefab: {fileID: 3758727281532632823, guid: 28357a470ac3cb445aa1208c33154829, type: 3}
   damage: 100
   stunTime: 1
