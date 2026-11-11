@@ -21,8 +21,6 @@ public class RoomObject : MonoBehaviour
     void Start()
     {
         player = FindAnyObjectByType<PlayerState>().transform;
-
-        StartEnemySpawning();
     }
 
     void Update()
