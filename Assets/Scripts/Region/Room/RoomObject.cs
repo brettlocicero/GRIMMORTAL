@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class RoomObject : MonoBehaviour
 {
     [Header("Spawning")]
     [SerializeField] EnemyAI enemyPrefab;
+    [SerializeField] int totalEnemies = 100;
+    [SerializeField] int maxAlive = 30;
     [SerializeField] float spawnRadius = 25f;
     [SerializeField] LayerMask groundMask;
     [SerializeField] float rayHeight = 50f;
@@ -11,12 +14,16 @@ public class RoomObject : MonoBehaviour
     [Header("Ramp")]
     [SerializeField] float startInterval = 5f;
     [SerializeField] float minInterval = 0.4f;
-    [SerializeField] float rampDuration = 180f;
+
+    public event Action OnCleared;
 
     Transform player;
     bool spawning;
-    float elapsed;
     float spawnTimer;
+    int spawned;
+    int killed;
+
+    int Alive => spawned - killed;
 
     void Start()
     {
@@ -25,25 +32,25 @@ public class RoomObject : MonoBehaviour
 
     void Update()
     {
-        if (spawning)
+        if (spawning && spawned < totalEnemies)
             HandleSpawning();
     }
 
     public void StartEnemySpawning()
     {
-        elapsed = 0f;
         spawnTimer = 0f;
+        spawned = 0;
+        killed = 0;
         spawning = true;
     }
 
     void HandleSpawning()
     {
-        elapsed += Time.deltaTime;
         spawnTimer += Time.deltaTime;
 
-        float interval = Mathf.Lerp(startInterval, minInterval, elapsed / rampDuration);
+        float interval = Mathf.Lerp(startInterval, minInterval, (float)spawned / totalEnemies);
 
-        if (spawnTimer >= interval)
+        if (spawnTimer >= interval && Alive < maxAlive)
         {
             spawnTimer = 0f;
             Spawn();
@@ -52,10 +59,22 @@ public class RoomObject : MonoBehaviour
 
     void Spawn()
     {
-        Vector2 circle = Random.insideUnitCircle.normalized * spawnRadius;
+        Vector2 circle = UnityEngine.Random.insideUnitCircle.normalized * spawnRadius;
         Vector3 origin = player.position + new Vector3(circle.x, rayHeight, circle.y);
 
         if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayHeight * 2f, groundMask))
-            Instantiate(enemyPrefab, hit.point, Quaternion.identity, transform);
+        {
+            EnemyAI enemy = Instantiate(enemyPrefab, hit.point, Quaternion.identity, transform);
+            enemy.OnEnemyKilled += HandleEnemyKilled;
+            spawned++;
+        }
+    }
+
+    void HandleEnemyKilled(EnemyAI enemy)
+    {
+        killed++;
+
+        if (killed >= totalEnemies)
+            OnCleared?.Invoke();
     }
 }
