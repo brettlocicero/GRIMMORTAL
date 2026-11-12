@@ -4,7 +4,7 @@ using UnityEngine;
 public class SoulManager : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] Transform portalCenter;
+    [SerializeField] Vector3 soulTarget;
     [SerializeField] GameObject soulPrefab;
 
     [Header("Flight")]
@@ -35,7 +35,7 @@ public class SoulManager : MonoBehaviour
 
         DOVirtual.Float(0f, 1f, Random.Range(flightTime.x, flightTime.y), t =>
         {
-            Vector3 end = portalCenter.position;
+            Vector3 end = soulTarget;
             Vector3 direction = (end - start).normalized;
 
             Vector3 side = Vector3.Cross(direction, Vector3.up).normalized;
@@ -44,8 +44,7 @@ public class SoulManager : MonoBehaviour
             float fade = 1f - t;
             float time = t * noiseFrequency;
 
-            Vector3 noise = side * (Mathf.PerlinNoise(seed.x, time + seed.y) - 0.5f)
-                          + up * (Mathf.PerlinNoise(seed.z, time + seed.y) - 0.5f);
+            Vector3 noise = side * (Mathf.PerlinNoise(seed.x, time + seed.y) - 0.5f) + up * (Mathf.PerlinNoise(seed.z, time + seed.y) - 0.5f);
 
             soul.position = Vector3.Lerp(start, end, t) + noise * noiseAmount * fade;
         })

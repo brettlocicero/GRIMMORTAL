@@ -45,10 +45,17 @@ public class RegionGenerator : MonoBehaviour
 
     public void SpawnNextRoom()
     {
-        roomIndex++;
+        StartCoroutine(SpawnNextRoomWorker());
+    }
 
-        if (roomIndex < currentRegion.RoomCount)
-            SpawnRoom();
+    IEnumerator SpawnNextRoomWorker()
+    {
+        PlayTransitionFX();
+
+        yield return new WaitForSeconds(1f);
+
+        roomIndex++;
+        SpawnRoom();
     }
 
     void SpawnRoom()

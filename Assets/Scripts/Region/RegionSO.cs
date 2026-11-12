@@ -16,7 +16,7 @@ public class RegionSO : ScriptableObject
 
     public RoomObject SpawnRoom(int roomIndex, Vector3 position)
     {
-        RoomObject prefab = rooms[roomIndex];
+        RoomObject prefab = rooms[Random.Range(0, rooms.Length)];
         return Instantiate(prefab, position, Quaternion.identity);
     }
 
