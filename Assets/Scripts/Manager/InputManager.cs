@@ -7,6 +7,7 @@ public static class InputManager
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()
     {
+        Actions?.Dispose();
         Actions = new PlayerInputActions();
         Actions.Enable();
     }
