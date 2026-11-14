@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Gladius Sanctus
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
   itemName: Gladius Sanctus
-  id: 0
   description: 
-  itemSize: {x: 1, y: 1}
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   attacks:
   - attackName: Left Swing
@@ -23,7 +21,7 @@ MonoBehaviour:
     direction: 1
     projectileForce: 0
     useHitbox: 1
-    attackDelay: 0.38333333
+    attackDelay: 0.41666666
     damage: 10
     stunTime: 0.5
     camShakeIntensity: 3
@@ -36,7 +34,7 @@ MonoBehaviour:
     direction: 2
     projectileForce: 0
     useHitbox: 1
-    attackDelay: 0.38333333
+    attackDelay: 0.41666666
     damage: 10
     stunTime: 0.5
     camShakeIntensity: 3
@@ -49,5 +47,4 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: 4dc4d35a236051d4aa1c7d237c725994, type: 3}
   contactSound: {fileID: 8300000, guid: c1109c8783b145544a54e6168f3bbd26, type: 3}
   attackSoundPitchRange: {x: 0.7, y: 0.9}
-  maxSlots: 5
   blockProtectionPercent: 50

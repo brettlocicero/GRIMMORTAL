@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponObject : ItemObject
 {
+    enum HandPlacement { Left, Right };
+
     [Header("Weapon References")]
+    [SerializeField] HandPlacement handPlacement;
     [SerializeField] Animation attackAnimation;
     [SerializeField] Transform hitSpot;
     [SerializeField] SigilInventory sigilInventory;
-
-    [Header("Block")]
-    [SerializeField] Vector3 blockPositionOffset;
-    [SerializeField] Vector3 blockRotationOffset;
-    [SerializeField] float blockTransitionSpeed = 10f;
 
     bool inAttack = false;
     bool isBlocking = false;
@@ -51,7 +50,6 @@ public class WeaponObject : ItemObject
     {
         base.Update();
         stats.Tick(Time.deltaTime);
-        HandleBlock();
         HandleAttack();
     }
 
@@ -63,17 +61,6 @@ public class WeaponObject : ItemObject
     bool CanAttack()
     {
         return !(inAttack || isBlocking || IsBusy());
-    }
-
-    void HandleBlock()
-    {
-        isBlocking = !inAttack && !IsBusy() && InputManager.Actions.Player.Block.IsPressed();
-
-        Vector3 targetPos = isBlocking ? blockPositionOffset : Vector3.zero;
-        Quaternion targetRot = isBlocking ? Quaternion.Euler(blockRotationOffset) : Quaternion.identity;
-
-        posOffset = Vector3.Lerp(posOffset, targetPos, Time.deltaTime * blockTransitionSpeed);
-        rotOffset = Quaternion.Slerp(rotOffset, targetRot, Time.deltaTime * blockTransitionSpeed);
     }
 
     WeaponContext CreateWeaponContext(Attack attack)
@@ -93,7 +80,8 @@ public class WeaponObject : ItemObject
         stats.AttackRate = weapon.attackRate;
         sigilInventory.Trigger(SigilTrigger.Passive, passiveContext);
 
-        bool pressedAttack = InputManager.Actions.Player.Attack.WasPressedThisFrame();
+        InputAction key = handPlacement.Equals(HandPlacement.Right) ? InputManager.Actions.Player.Attack1 : InputManager.Actions.Player.Attack2;
+        bool pressedAttack = key.WasPressedThisFrame();
         bool ready = attackTimer >= stats.AttackRate;
 
         if (pressedAttack && ready && CanAttack())
@@ -138,7 +126,8 @@ public class WeaponObject : ItemObject
 
         while (charging || state.time < attack.attackDelay)
         {
-            charging = charging && chargeTime < attack.maxChargeTime && InputManager.Actions.Player.Attack.IsPressed();
+            InputAction key = handPlacement.Equals(HandPlacement.Right) ? InputManager.Actions.Player.Attack1 : InputManager.Actions.Player.Attack2;
+            charging = charging && chargeTime < attack.maxChargeTime && key.IsPressed();
 
             if (charging)
             {
