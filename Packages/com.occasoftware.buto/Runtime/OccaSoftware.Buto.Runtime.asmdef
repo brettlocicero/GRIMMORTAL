@@ -1,0 +1,28 @@
+{
+    "name": "OccaSoftware.Buto.Runtime",
+    "rootNamespace": "OccaSoftware.Buto.Runtime",
+    "references": [
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "17.0.0",
+            "define": "OCCA_URP_17_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "17.4.0",
+            "define": "OCCA_URP_17_4_OR_NEWER"
+        }
+    ],
+    "noEngineReferences": false
+}

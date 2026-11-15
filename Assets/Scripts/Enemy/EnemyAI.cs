@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        target = FindAnyObjectByType<PlayerState>();
+        target = PlayerState.Instance;
     }
 
     void Update()

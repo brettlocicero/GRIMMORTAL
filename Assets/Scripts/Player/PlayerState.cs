@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerState : MonoBehaviour
 {
+    public static PlayerState Instance;
+
     [SerializeField] int maxHealth = 100;
 
     [Header("UI References")]
@@ -16,14 +18,25 @@ public class PlayerState : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float flashAlpha = 0.4f;
     [SerializeField] float flashDuration = 0.3f;
 
+    PlayerCurrency playerCurrency;
+
     int health;
 
     public int Health => health;
 
     void Awake()
     {
+        GetReferences();
+        
         health = maxHealth;
         UpdateHealthUI();
+
+        Instance = this;
+    }
+
+    void GetReferences()
+    {
+        playerCurrency = GetComponentInChildren<PlayerCurrency>();
     }
 
     public void Damage(int amount)
@@ -45,5 +58,15 @@ public class PlayerState : MonoBehaviour
         damageScreenRect.DOFade(0f, flashDuration).From(flashAlpha);
 
         CinemachineShakeManager.Instance.ShakeCamera(2f, 0.25f, 0.2f, 95f);
+    }
+
+    public Transform GetPlayerTransform()
+    {
+        return transform;
+    }
+
+    public void AddCurrency(int amount)
+    {
+        playerCurrency.AddCurrency(amount);
     }
 }

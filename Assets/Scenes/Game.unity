@@ -14,13 +14,13 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.85, g: 0.6494872, b: 0.53615385, a: 1}
   m_FogMode: 2
-  m_FogDensity: 0.02
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+  m_AmbientSkyColor: {r: 0.4627451, g: 0.4627451, b: 0.4627451, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -616,9 +616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee38c3bef293cc748b1f46fff282d2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoulManager
-  soulTarget: {x: 0, y: 20, z: 0}
   soulPrefab: {fileID: 8601595843830310328, guid: dce38fd519dfa36438e94ac0774e48de, type: 3}
-  flightTime: {x: 1, y: 2}
+  flightTime: {x: 0.5, y: 1}
   startHeight: 1
   ease: 5
   noiseAmount: 5
@@ -13141,7 +13140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40da8cd9961a23747abd49559cbba642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCurrency
-  currency: 50
+  currency: 0
   currencyText: {fileID: 34829263}
 --- !u!4 &7789028276559413637
 Transform:
