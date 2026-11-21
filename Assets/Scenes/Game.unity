@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.85, g: 0.6494872, b: 0.53615385, a: 1}
   m_FogMode: 2
-  m_FogDensity: 0.01
+  m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.4627451, g: 0.4627451, b: 0.4627451, a: 1}
@@ -1855,7 +1855,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deadwastes - 1
+  m_text: Deadwastes I
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d1ee4b61a70bf294888c36a3e597aac4, type: 2}
   m_sharedMaterial: {fileID: 1489714490611683975, guid: d1ee4b61a70bf294888c36a3e597aac4, type: 2}

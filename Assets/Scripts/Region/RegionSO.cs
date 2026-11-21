@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RegionSO", menuName = "Scriptable Objects/RegionSO")]
@@ -5,6 +6,9 @@ public class RegionSO : ScriptableObject
 {
     [SerializeField] string regionName;
     [SerializeField] RoomObject[] rooms;
+
+    [Header("Landmarks")]
+    [SerializeField] Landmark[] landmarks;
 
     [Header("Ambience")]
     [SerializeField] Material skybox;
@@ -14,10 +18,23 @@ public class RegionSO : ScriptableObject
     public string RegionName => regionName;
     public int RoomCount => rooms.Length;
 
-    public RoomObject SpawnRoom(int roomIndex, Vector3 position)
+    public RoomObject SpawnRoom(int roomIndex, Vector3 position, System.Random rng)
     {
-        RoomObject prefab = rooms[Random.Range(0, rooms.Length)];
+        RoomObject prefab = rooms[rng.Next(rooms.Length)];
         return Instantiate(prefab, position, Quaternion.identity);
+    }
+
+    public void SpawnLandmarks(Vector3 center, Transform parent, System.Random rng)
+    {
+        List<(Vector3 position, float radius)> placed = new();
+
+        foreach (Landmark landmark in landmarks)
+            landmark.Spawn(center, parent, rng, placed);
+    }
+
+    float RandomRange(System.Random rng, float min, float max)
+    {
+        return Mathf.Lerp(min, max, (float)rng.NextDouble());
     }
 
     public void SetRegionAmbience()

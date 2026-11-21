@@ -14,9 +14,14 @@ public class RegionGenerator : MonoBehaviour
 
     RegionSO currentRegion;
     RoomObject currentRoom;
+    Transform landmarkParent;
+    System.Random rng;
     int roomIndex = 0;
-    
+    int seed;
+
     AudioSource audioSource;
+
+    public int Seed => seed;
 
     void Start()
     {
@@ -25,6 +30,16 @@ public class RegionGenerator : MonoBehaviour
 
     public void GenerateRegion(RegionSO region)
     {
+        GenerateRegion(region, System.Guid.NewGuid().GetHashCode());
+    }
+
+    public void GenerateRegion(RegionSO region, int regionSeed)
+    {
+        seed = regionSeed;
+        rng = new System.Random(seed);
+
+        Debug.Log($"Generating {region.RegionName} with seed {seed}");
+
         StartCoroutine(GenerateRegionWorker(region));
     }
 
@@ -39,6 +54,7 @@ public class RegionGenerator : MonoBehaviour
         currentRegion = region;
         roomIndex = 0;
 
+        SpawnLandmarks();
         SpawnRoom();
         region.SetRegionAmbience();
     }
@@ -58,12 +74,21 @@ public class RegionGenerator : MonoBehaviour
         SpawnRoom();
     }
 
+    void SpawnLandmarks()
+    {
+        if (landmarkParent)
+            Destroy(landmarkParent.gameObject);
+
+        landmarkParent = new GameObject("Landmarks").transform;
+        currentRegion.SpawnLandmarks(transform.position, landmarkParent, rng);
+    }
+
     void SpawnRoom()
     {
         if (currentRoom)
             Destroy(currentRoom.gameObject);
 
-        currentRoom = currentRegion.SpawnRoom(roomIndex, transform.position);
+        currentRoom = currentRegion.SpawnRoom(roomIndex, transform.position, rng);
     }
 
     void PlayTransitionFX()
