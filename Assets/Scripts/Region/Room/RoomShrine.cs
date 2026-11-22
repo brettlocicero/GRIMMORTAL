@@ -17,12 +17,12 @@ public class RoomShrine : MonoBehaviour, IInteractable
     void Start()
     {
         player = FindAnyObjectByType<PlayerController>();
-        room.OnCleared += HandleRoomCleared;
+        // room.OnCleared += HandleRoomCleared;
     }
 
     void OnDestroy()
     {
-        room.OnCleared -= HandleRoomCleared;
+        // room.OnCleared -= HandleRoomCleared;
     }
 
     public void Interact()

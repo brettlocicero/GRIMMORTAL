@@ -15,6 +15,7 @@ MonoBehaviour:
   regionName: Deadwastes
   rooms:
   - {fileID: 4908639858610648940, guid: 9bc698730a7010147bff852c1d14cb83, type: 3}
+  useLandmarks: 0
   landmarks:
   - prefab: {fileID: 6504209615000081674, guid: c8a49c002e4d6ca4d803f3d3b12ff0d7, type: 3}
     count: {x: 1, y: 1}

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class RegionGenerator : MonoBehaviour
@@ -11,6 +12,9 @@ public class RegionGenerator : MonoBehaviour
 
     [SerializeField] Animator playerTransitionAnimator;
     [SerializeField] GameObject hubObjects;
+
+    [Header("UI")]
+    [SerializeField] TextMeshProUGUI regionInfoText;
 
     RegionSO currentRegion;
     RoomObject currentRoom;
@@ -95,5 +99,10 @@ public class RegionGenerator : MonoBehaviour
     {
         playerTransitionAnimator.SetTrigger("RegionEnter");
         audioSource.Play();
+    }
+
+    public void UpdateRegionInfoText(string text)
+    {
+        regionInfoText.text = text;
     }
 }

@@ -3686,8 +3686,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f9a09104267994693b546bb8b98338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomObject
-  enemyPrefab: {fileID: 7699266254372126044, guid: efa6a9fd3bf210942b4ca0274bce9a38, type: 3}
-  totalEnemies: 200
+  enemyPrefabs:
+  - {fileID: 7699266254372126044, guid: 353a4dd2eb780f14aad5c3b76c2c092f, type: 3}
+  - {fileID: 7699266254372126044, guid: efa6a9fd3bf210942b4ca0274bce9a38, type: 3}
+  waveCount: 5
+  startBudget: 10
+  budgetPerWave: 10
   maxAlive: 50
   spawnRadius: 75
   groundMask:

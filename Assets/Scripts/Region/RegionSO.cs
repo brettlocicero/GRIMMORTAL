@@ -8,6 +8,7 @@ public class RegionSO : ScriptableObject
     [SerializeField] RoomObject[] rooms;
 
     [Header("Landmarks")]
+    [SerializeField] bool useLandmarks = true;
     [SerializeField] Landmark[] landmarks;
 
     [Header("Ambience")]
@@ -26,6 +27,8 @@ public class RegionSO : ScriptableObject
 
     public void SpawnLandmarks(Vector3 center, Transform parent, System.Random rng)
     {
+        if (!useLandmarks) return;
+
         List<(Vector3 position, float radius)> placed = new();
 
         foreach (Landmark landmark in landmarks)
