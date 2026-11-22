@@ -258,6 +258,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5525117772257542487}
     m_Modifications:
+    - target: {fileID: 1052706448270819189, guid: c3f22e0d04a42e9419e8190695f6a459, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6b290759bcf30cb45b1b8e6a20c33760, type: 2}
     - target: {fileID: 4311558100872510564, guid: c3f22e0d04a42e9419e8190695f6a459, type: 3}
       propertyPath: m_Name
       value: Ground Detail (2)
@@ -542,6 +546,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5525117772257542487}
     m_Modifications:
+    - target: {fileID: 1052706448270819189, guid: c3f22e0d04a42e9419e8190695f6a459, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6b290759bcf30cb45b1b8e6a20c33760, type: 2}
     - target: {fileID: 4311558100872510564, guid: c3f22e0d04a42e9419e8190695f6a459, type: 3}
       propertyPath: m_Name
       value: Ground Detail (1)
@@ -604,6 +612,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5525117772257542487}
     m_Modifications:
+    - target: {fileID: 1052706448270819189, guid: c3f22e0d04a42e9419e8190695f6a459, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6b290759bcf30cb45b1b8e6a20c33760, type: 2}
     - target: {fileID: 4311558100872510564, guid: c3f22e0d04a42e9419e8190695f6a459, type: 3}
       propertyPath: m_Name
       value: Ground Detail

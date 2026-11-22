@@ -21,6 +21,7 @@ public class PlayerState : MonoBehaviour
     PlayerCurrency playerCurrency;
 
     int health;
+    bool isDead;
 
     public int Health => health;
 
@@ -41,9 +42,28 @@ public class PlayerState : MonoBehaviour
 
     public void Damage(int amount)
     {
-        health = Mathf.Max(0, health - amount);
+        if (!isDead)
+        {
+            health = Mathf.Max(0, health - amount);
+            UpdateHealthUI();
+            PlayDamageFX();
+
+            if (health <= 0)
+                Die();
+        }
+    }
+
+    void Die()
+    {
+        isDead = true;
+        RegionGenerator.Instance.ReturnToHub();
+    }
+
+    public void Revive()
+    {
+        isDead = false;
+        health = maxHealth;
         UpdateHealthUI();
-        PlayDamageFX();
     }
 
     void UpdateHealthUI()

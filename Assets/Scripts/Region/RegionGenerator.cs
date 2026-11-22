@@ -12,6 +12,8 @@ public class RegionGenerator : MonoBehaviour
 
     [SerializeField] Animator playerTransitionAnimator;
     [SerializeField] GameObject hubObjects;
+    [SerializeField] PlayerController player;
+    [SerializeField] Transform hubSpawn;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI regionInfoText;
@@ -104,5 +106,32 @@ public class RegionGenerator : MonoBehaviour
     public void UpdateRegionInfoText(string text)
     {
         regionInfoText.text = text;
+    }
+
+    public void ReturnToHub()
+    {
+        StartCoroutine(ReturnToHubWorker());
+    }
+
+    IEnumerator ReturnToHubWorker()
+    {
+        player.MovementLocked = true;
+        PlayTransitionFX();
+
+        yield return new WaitForSeconds(1f);
+
+        if (currentRoom)
+            Destroy(currentRoom.gameObject);
+
+        if (landmarkParent)
+            Destroy(landmarkParent.gameObject);
+
+        regionInfoText.text = "";
+        hubObjects.SetActive(true);
+
+        player.Teleport(hubSpawn.position, hubSpawn.rotation);
+        player.MovementLocked = false;
+
+        PlayerState.Instance.Revive();
     }
 }
