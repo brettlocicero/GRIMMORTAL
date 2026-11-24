@@ -2952,7 +2952,7 @@ MonoBehaviour:
   movement: {fileID: 4943892545165527718}
   attack: {fileID: 5943681217247879133}
   maxHealth: 60
-  threat: 3
+  threat: 2
   thinkInterval: 0.5
   animator: {fileID: 8620166371696577679}
   hitAnimationLength: 0.5

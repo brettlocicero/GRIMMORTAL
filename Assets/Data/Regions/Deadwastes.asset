@@ -54,5 +54,5 @@ MonoBehaviour:
     radius: 2
     maxAttempts: 10
   skybox: {fileID: 2100000, guid: b83849c4866e093419a13d4e9a89c1c7, type: 2}
-  fogColor: {r: 0.48235294, g: 0.48235294, b: 0.48235294, a: 1}
-  sunColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
+  fogColor: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+  sunColor: {r: 0.624, g: 0.624, b: 0.624, a: 1}
