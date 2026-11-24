@@ -1,56 +1,61 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class InteractionManager : MonoBehaviour
 {
-	[Header("Settings")]
-	[SerializeField] float interactionRange = 4f;
-	[SerializeField] LayerMask interactionLayerMask;
+    [Header("Settings")]
+    [SerializeField] float interactionRange = 4f;
+    [SerializeField] LayerMask interactionLayerMask;
 
-	Transform cam;
+    [Header("UI")]
+    [SerializeField] TMP_Text hoverText;
 
-	void Start()
-	{
-		cam = Camera.main.transform;
-	}
+    Transform cam;
+    IDisposable buttonListener;
+    bool usingGamepad;
 
-	void Update()
-	{
-		HandleInteract();
-	}
-
-    void FixedUpdate()
+    void Start()
     {
-        HandleHoverInteracts();
+        cam = Camera.main.transform;
     }
 
-    void HandleInteract()
-	{
-		if (InputManager.Actions.Player.Interact.WasPressedThisFrame())
-		{
-			if (Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, interactionRange, interactionLayerMask))
-			{
-				if (hit.collider.TryGetComponent(out IInteractable interactable))
-				{
-					interactable.Interact();
-					Debug.Log($"Interacted with {hit.collider.gameObject.name}...");
-				}
-			}
-		}
-	}
+    void OnEnable()
+    {
+        buttonListener = InputSystem.onAnyButtonPress.Call(control => usingGamepad = control.device is Gamepad);
+    }
 
-	void HandleHoverInteracts()
-	{
-		if (Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, interactionRange, interactionLayerMask))
-		{
-			if (hit.collider.TryGetComponent(out IInteractable interactable))
-			{
-				interactable.Hover("Press 'E' to interact with " + hit.collider.gameObject.name);
-			}
-		}
+    void OnDisable()
+    {
+        buttonListener.Dispose();
+    }
 
-		else
-		{
-			// PopupManager.instance.HidePopup();
-		}
-	}
+    void Update()
+    {
+        IInteractable interactable = GetInteractable();
+
+        hoverText.gameObject.SetActive(interactable != null);
+
+        if (interactable != null)
+        {
+            string group = usingGamepad ? "Gamepad" : "Keyboard&Mouse";
+            string key = InputManager.Actions.Player.Interact.GetBindingDisplayString(InputBinding.DisplayStringOptions.DontIncludeInteractions, group: group);
+            hoverText.text = $"<b><color=red>[{key}]</color></b> {interactable.Prompt}";
+
+            if (InputManager.Actions.Player.Interact.WasPressedThisFrame())
+                interactable.Interact();
+        }
+    }
+
+    IInteractable GetInteractable()
+    {
+        IInteractable interactable = null;
+
+        if (Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, interactionRange, interactionLayerMask))
+            hit.collider.TryGetComponent(out interactable);
+
+        return interactable;
+    }
 }

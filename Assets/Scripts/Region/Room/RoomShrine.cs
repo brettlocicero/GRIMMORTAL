@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class RoomShrine : MonoBehaviour, IInteractable
 {
+    public string Prompt => state == State.Cleared ? "Next room" : "Activate shrine";
+
     enum State { Idle, Active, Cleared }
 
     [SerializeField] RoomObject room;

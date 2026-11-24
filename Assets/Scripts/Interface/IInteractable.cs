@@ -1,16 +1,6 @@
-using UnityEngine;
-
 public interface IInteractable
 {
-	public void Interact();
+    public string Prompt => "Interact";
 
-	public void Hover(string text)
-	{
-		// PopupManager.instance.DisplayPopup(text);
-	}
-
-	public void ExitHover()
-	{
-		// PopupManager.instance.HidePopup();
-	}
+    public void Interact();
 }
