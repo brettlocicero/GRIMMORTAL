@@ -3839,7 +3839,7 @@ GameObject:
   - component: {fileID: 2383398790470492325}
   - component: {fileID: 589837623608934802}
   m_Layer: 0
-  m_Name: Deadwaste - Room 1
+  m_Name: Bastion Room 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

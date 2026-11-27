@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 213ae3b51ecc54cf2bb5e6d30cd6ac54, type: 3}
-  m_Name: Deadwastes
+  m_Name: Bastion
   m_EditorClassIdentifier: Assembly-CSharp::RegionSO
-  regionName: Deadwastes
+  regionName: Bastion
   rooms:
   - {fileID: 589837623608934802, guid: 9bc698730a7010147bff852c1d14cb83, type: 3}
   - {fileID: 589837623608934802, guid: 6d22f42735d33b6449db4d5e88973328, type: 3}
   hallways:
-  - {fileID: 7039135601650189429, guid: ece5e1dcd4854934bb7bbeefc273bcf1, type: 3}
+  - {fileID: 7039135601650189429, guid: bbe420fab81d4a941b59942c5fe22044, type: 3}
   - {fileID: 7039135601650189429, guid: ece5e1dcd4854934bb7bbeefc273bcf1, type: 3}
   skybox: {fileID: 2100000, guid: b83849c4866e093419a13d4e9a89c1c7, type: 2}
   fogColor: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}

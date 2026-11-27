@@ -17,9 +17,9 @@ public class HallwayObject : MonoBehaviour
         transform.position += connector.position - entry.position;
     }
     
-    public void Init(RoomObject room)
+    public void Init(RoomObject entryRoom, RoomObject exitRoom)
     {
-        entryDoor.Init(room);
-        exitDoor.Init(room);
+        entryDoor.Init(entryRoom);
+        exitDoor.Init(exitRoom);
     }
 }

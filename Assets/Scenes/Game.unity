@@ -2701,7 +2701,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deadwastes
+  m_text: Bastion
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d1ee4b61a70bf294888c36a3e597aac4, type: 2}
   m_sharedMaterial: {fileID: 1489714490611683975, guid: d1ee4b61a70bf294888c36a3e597aac4, type: 2}
