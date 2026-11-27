@@ -84,21 +84,25 @@ public class RegionGenerator : MonoBehaviour
         hallway.SnapTo(connector);
 
         room = Instantiate(region.RandomRoom, transform);
-        room.SnapTo(hallway.Exit);
+
+        Transform[] connectors = room.GetConnectors();
+        List<Transform> available = new();
+
+        foreach (Transform exit in connectors)
+        {
+            if (exit)
+                available.Add(exit);
+        }
+
+        Transform entry = available[Random.Range(0, available.Count)];
+
+        room.SnapTo(hallway.Exit, entry);
 
         Physics.SyncTransforms();
 
-        BoxCollider bounds = room.Bounds;
+        bool blocked = HasOverlap(hallway.Bounds) || HasOverlap(room.Bounds);
 
-        Collider[] hits = Physics.OverlapBox(
-            bounds.transform.TransformPoint(bounds.center),
-            Vector3.Scale(bounds.size, bounds.transform.lossyScale) / 2f,
-            bounds.transform.rotation,
-            layoutMask,
-            QueryTriggerInteraction.Collide
-        );
-
-        if (hits.Length > 0)
+        if (blocked)
         {
             Destroy(hallway.gameObject);
             Destroy(room.gameObject);
@@ -122,5 +126,26 @@ public class RegionGenerator : MonoBehaviour
         }
 
         return points[Random.Range(0, points.Count)];
+    }
+
+    bool HasOverlap(BoxCollider[] bounds)
+    {
+        Physics.SyncTransforms();
+
+        foreach (BoxCollider bound in bounds)
+        {
+            Collider[] hits = Physics.OverlapBox(
+                bound.transform.TransformPoint(bound.center),
+                Vector3.Scale(bound.size, bound.transform.lossyScale) / 2f,
+                bound.transform.rotation,
+                layoutMask,
+                QueryTriggerInteraction.Collide
+            );
+
+            if (hits.Length > 0)
+                return true;
+        }
+
+        return false;
     }
 }

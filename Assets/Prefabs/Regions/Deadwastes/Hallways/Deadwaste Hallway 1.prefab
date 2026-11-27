@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 3224264089178732886}
   - component: {fileID: 7039135601650189429}
   m_Layer: 0
-  m_Name: Hallway
+  m_Name: Deadwaste Hallway 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,6 +165,8 @@ MonoBehaviour:
   exit: {fileID: 8706729172947227421}
   entryDoor: {fileID: 407770730144758307}
   exitDoor: {fileID: 8591856260775015435}
+  bounds:
+  - {fileID: 8417655124750087559}
 --- !u!1 &4420218782953818661
 GameObject:
   m_ObjectHideFlags: 0

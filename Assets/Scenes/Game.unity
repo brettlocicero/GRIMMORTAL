@@ -1570,9 +1570,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RegionGenerator
   playerTransitionAnimator: {fileID: 2265449290646916190}
   hubObjects: {fileID: 238544259}
-  player: {fileID: 4180316113526388819}
-  hubSpawn: {fileID: 1263347979}
-  regionInfoText: {fileID: 2105353052}
+  roomCount: 25
+  layoutMask:
+    serializedVersion: 2
+    m_Bits: 0
+  generationDelay: 0.05
 --- !u!82 &911830138
 AudioSource:
   m_ObjectHideFlags: 0

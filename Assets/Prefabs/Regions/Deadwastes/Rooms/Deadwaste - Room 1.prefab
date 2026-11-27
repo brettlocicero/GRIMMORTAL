@@ -3883,7 +3883,8 @@ MonoBehaviour:
   east: {fileID: 6561217708236379635}
   west: {fileID: 8609616551952432144}
   spawnPoints: []
-  bounds: {fileID: 2157751040511900326}
+  bounds:
+  - {fileID: 2157751040511900326}
 --- !u!1 &3533294380882001528
 GameObject:
   m_ObjectHideFlags: 0

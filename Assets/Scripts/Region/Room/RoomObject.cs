@@ -12,9 +12,9 @@ public class RoomObject : MonoBehaviour
     [Header("Spawning")]
     [SerializeField] Transform[] spawnPoints;
 
-    [SerializeField] BoxCollider bounds;
+    [SerializeField] BoxCollider[] bounds;
 
-    public BoxCollider Bounds => bounds;
+    public BoxCollider[] Bounds => bounds;
     public bool Unlocked { get; set; }
     public Transform[] SpawnPoints => spawnPoints;
 
@@ -36,6 +36,12 @@ public class RoomObject : MonoBehaviour
 
         Transform entry = available[Random.Range(0, available.Count)];
 
+        transform.rotation = connector.rotation * Quaternion.Euler(0f, 180f, 0f) * Quaternion.Inverse(entry.rotation) * transform.rotation;
+        transform.position += connector.position - entry.position;
+    }
+
+    public void SnapTo(Transform connector, Transform entry)
+    {
         transform.rotation = connector.rotation * Quaternion.Euler(0f, 180f, 0f) * Quaternion.Inverse(entry.rotation) * transform.rotation;
         transform.position += connector.position - entry.position;
     }
