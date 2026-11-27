@@ -1,89 +1,42 @@
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomObject : MonoBehaviour
 {
-    [Header("Enemies")]
-    [SerializeField] EnemyAI[] enemyPrefabs;
-    [SerializeField] int maxAlive = 30;
+    [Header("Connectors")]
+    [SerializeField] Transform north;
+    [SerializeField] Transform south;
+    [SerializeField] Transform east;
+    [SerializeField] Transform west;
 
     [Header("Spawning")]
-    [SerializeField] float spawnRadius = 25f;
-    [SerializeField] LayerMask groundMask;
-    [SerializeField] float rayHeight = 50f;
+    [SerializeField] Transform[] spawnPoints;
 
-    [Header("Ramp")]
-    [SerializeField] float startInterval = 3f;
-    [SerializeField] float minInterval = 0.4f;
-    [SerializeField] float rampDuration = 300f;
-    [SerializeField] float threatStepTime = 60f;
+    [SerializeField] BoxCollider bounds;
 
-    Transform player;
-    bool spawning;
-    float elapsed;
-    float spawnTimer;
-    int alive;
+    public BoxCollider Bounds => bounds;
+    public bool Unlocked { get; set; }
+    public Transform[] SpawnPoints => spawnPoints;
 
-    void Start()
+    public Transform[] GetConnectors()
     {
-        player = FindAnyObjectByType<PlayerState>().transform;
-        StartEnemySpawning();
+        return new Transform[] { north, south, east, west };
     }
 
-    void Update()
+    public void SnapTo(Transform connector)
     {
-        if (spawning)
-            HandleSpawning();
-    }
+        Transform[] connectors = GetConnectors();
+        List<Transform> available = new();
 
-    public void StartEnemySpawning()
-    {
-        elapsed = 0f;
-        spawnTimer = 0f;
-        alive = 0;
-        spawning = true;
-    }
-
-    void HandleSpawning()
-    {
-        elapsed += Time.deltaTime;
-        spawnTimer += Time.deltaTime;
-
-        float interval = Mathf.Lerp(startInterval, minInterval, elapsed / rampDuration);
-
-        if (spawnTimer >= interval && alive < maxAlive)
+        foreach (Transform exit in connectors)
         {
-            spawnTimer = 0f;
-            Spawn();
+            if (exit)
+                available.Add(exit);
         }
-    }
 
-    void Spawn()
-    {
-        EnemyAI prefab = PickEnemy();
+        Transform entry = available[Random.Range(0, available.Count)];
 
-        Vector2 circle = Random.insideUnitCircle.normalized * spawnRadius;
-        Vector3 origin = player.position + new Vector3(circle.x, rayHeight, circle.y);
-
-        if (prefab && Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayHeight * 2f, groundMask))
-        {
-            EnemyAI enemy = Instantiate(prefab, hit.point, Quaternion.identity, transform);
-            enemy.OnEnemyKilled += HandleEnemyKilled;
-            alive++;
-        }
-    }
-
-    // Stronger enemies unlock as time passes
-    EnemyAI PickEnemy()
-    {
-        int maxThreat = 1 + (int)(elapsed / threatStepTime);
-        EnemyAI[] options = enemyPrefabs.Where(enemy => enemy.Threat <= maxThreat).ToArray();
-
-        return options.Length > 0 ? options[Random.Range(0, options.Length)] : null;
-    }
-
-    void HandleEnemyKilled(EnemyAI enemy)
-    {
-        alive--;
+        transform.rotation = connector.rotation * Quaternion.Euler(0f, 180f, 0f) * Quaternion.Inverse(entry.rotation) * transform.rotation;
+        transform.position += connector.position - entry.position;
     }
 }

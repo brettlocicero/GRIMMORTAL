@@ -43,7 +43,7 @@ public class RoomShrine : MonoBehaviour, IInteractable
 
     void GoToNextRoom()
     {
-        RegionGenerator.Instance.SpawnNextRoom();
+        // RegionGenerator.Instance.SpawnNextRoom();
     }
 
     void HandleRoomCleared()
@@ -54,7 +54,7 @@ public class RoomShrine : MonoBehaviour, IInteractable
     IEnumerator StartRoomSpawning()
     {
         yield return new WaitForSeconds(delayTime);
-        room.StartEnemySpawning();
+        // room.StartEnemySpawning();
     }
 
     void PlayActivatedAnimation()

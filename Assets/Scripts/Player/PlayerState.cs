@@ -56,7 +56,7 @@ public class PlayerState : MonoBehaviour
     void Die()
     {
         isDead = true;
-        RegionGenerator.Instance.ReturnToHub();
+        // RegionGenerator.Instance.ReturnToHub();
     }
 
     public void Revive()

@@ -6,6 +6,10 @@ public class RegionSO : ScriptableObject
 {
     [SerializeField] string regionName;
     [SerializeField] RoomObject[] rooms;
+    [SerializeField] HallwayObject[] hallways;
+
+    public RoomObject RandomRoom => rooms[Random.Range(0, rooms.Length)];
+    public HallwayObject RandomHallway => hallways[Random.Range(0, hallways.Length)];
 
     [Header("Landmarks")]
     [SerializeField] bool useLandmarks = true;

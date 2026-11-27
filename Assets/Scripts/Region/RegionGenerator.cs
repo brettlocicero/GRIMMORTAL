@@ -1,33 +1,27 @@
 using System.Collections;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RegionGenerator : MonoBehaviour
 {
     public static RegionGenerator Instance;
+
+    [SerializeField] Animator playerTransitionAnimator;
+    [SerializeField] GameObject hubObjects;
+    // [SerializeField] RoundManager roundManager;
+
+    [Header("Layout")]
+    [SerializeField] int roomCount = 8;
+    [SerializeField] LayerMask layoutMask;
+    [SerializeField] float generationDelay = 0.05f;
+
+    List<RoomObject> rooms = new();
+    AudioSource audioSource;
+
     void Awake()
     {
         Instance = this;
     }
-
-    [SerializeField] Animator playerTransitionAnimator;
-    [SerializeField] GameObject hubObjects;
-    [SerializeField] PlayerController player;
-    [SerializeField] Transform hubSpawn;
-
-    [Header("UI")]
-    [SerializeField] TextMeshProUGUI regionInfoText;
-
-    RegionSO currentRegion;
-    RoomObject currentRoom;
-    Transform landmarkParent;
-    System.Random rng;
-    int roomIndex = 0;
-    int seed;
-
-    AudioSource audioSource;
-
-    public int Seed => seed;
 
     void Start()
     {
@@ -36,102 +30,97 @@ public class RegionGenerator : MonoBehaviour
 
     public void GenerateRegion(RegionSO region)
     {
-        GenerateRegion(region, System.Guid.NewGuid().GetHashCode());
-    }
-
-    public void GenerateRegion(RegionSO region, int regionSeed)
-    {
-        seed = regionSeed;
-        rng = new System.Random(seed);
-
-        Debug.Log($"Generating {region.RegionName} with seed {seed}");
-
         StartCoroutine(GenerateRegionWorker(region));
     }
 
     IEnumerator GenerateRegionWorker(RegionSO region)
     {
-        PlayTransitionFX();
+        playerTransitionAnimator.SetTrigger("RegionEnter");
+        audioSource.Play();
 
         yield return new WaitForSeconds(1f);
 
         hubObjects.SetActive(false);
-
-        currentRegion = region;
-        roomIndex = 0;
-
-        SpawnLandmarks();
-        SpawnRoom();
         region.SetRegionAmbience();
+
+        yield return GenerateLayout(region);
+
+        // roundManager.StartRounds();
     }
 
-    public void SpawnNextRoom()
+    IEnumerator GenerateLayout(RegionSO region)
     {
-        StartCoroutine(SpawnNextRoomWorker());
+        RoomObject start = Instantiate(region.RandomRoom, transform.position, transform.rotation, transform);
+        start.Unlocked = true;
+
+        rooms.Add(start);
+
+        List<RoomObject> openRooms = new() { start };
+
+        while (rooms.Count < roomCount && openRooms.Count > 0)
+        {
+            RoomObject parent = openRooms[Random.Range(0, openRooms.Count)];
+            openRooms.Remove(parent);
+
+            foreach (Transform connector in parent.GetConnectors())
+            {
+                if (!connector || rooms.Count >= roomCount)
+                    continue;
+
+                if (TryAddRoom(region, connector, out RoomObject room))
+                {
+                    rooms.Add(room);
+                    openRooms.Add(room);
+                }
+
+                yield return new WaitForSeconds(generationDelay);
+            }
+        }
     }
 
-    IEnumerator SpawnNextRoomWorker()
+    bool TryAddRoom(RegionSO region, Transform connector, out RoomObject room)
     {
-        PlayTransitionFX();
+        HallwayObject hallway = Instantiate(region.RandomHallway, transform);
+        hallway.SnapTo(connector);
 
-        yield return new WaitForSeconds(1f);
+        room = Instantiate(region.RandomRoom, transform);
+        room.SnapTo(hallway.Exit);
 
-        roomIndex++;
-        SpawnRoom();
+        Physics.SyncTransforms();
+
+        BoxCollider bounds = room.Bounds;
+
+        Collider[] hits = Physics.OverlapBox(
+            bounds.transform.TransformPoint(bounds.center),
+            Vector3.Scale(bounds.size, bounds.transform.lossyScale) / 2f,
+            bounds.transform.rotation,
+            layoutMask,
+            QueryTriggerInteraction.Collide
+        );
+
+        if (hits.Length > 0)
+        {
+            Destroy(hallway.gameObject);
+            Destroy(room.gameObject);
+
+            room = null;
+            return false;
+        }
+
+        hallway.Init(room);
+        return true;
     }
 
-    void SpawnLandmarks()
+    public Transform GetRandomSpawnPoint()
     {
-        if (landmarkParent)
-            Destroy(landmarkParent.gameObject);
+        List<Transform> points = new();
 
-        landmarkParent = new GameObject("Landmarks").transform;
-        currentRegion.SpawnLandmarks(transform.position, landmarkParent, rng);
-    }
+        foreach (RoomObject room in rooms)
+        {
+            if (room.Unlocked)
+                points.AddRange(room.SpawnPoints);
+        }
 
-    void SpawnRoom()
-    {
-        if (currentRoom)
-            Destroy(currentRoom.gameObject);
-
-        currentRoom = currentRegion.SpawnRoom(roomIndex, transform.position, rng);
-    }
-
-    void PlayTransitionFX()
-    {
-        playerTransitionAnimator.SetTrigger("RegionEnter");
-        audioSource.Play();
-    }
-
-    public void UpdateRegionInfoText(string text)
-    {
-        regionInfoText.text = text;
-    }
-
-    public void ReturnToHub()
-    {
-        StartCoroutine(ReturnToHubWorker());
-    }
-
-    IEnumerator ReturnToHubWorker()
-    {
-        player.MovementLocked = true;
-        PlayTransitionFX();
-
-        yield return new WaitForSeconds(1f);
-
-        if (currentRoom)
-            Destroy(currentRoom.gameObject);
-
-        if (landmarkParent)
-            Destroy(landmarkParent.gameObject);
-
-        regionInfoText.text = "";
-        hubObjects.SetActive(true);
-
-        player.Teleport(hubSpawn.position, hubSpawn.rotation);
-        player.MovementLocked = false;
-
-        PlayerState.Instance.Revive();
+        return points[Random.Range(0, points.Count)];
     }
 }
