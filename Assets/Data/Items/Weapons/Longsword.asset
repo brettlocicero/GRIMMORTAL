@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db9abdc6dd75dde49b1c2ec7b739bcdb, type: 3}
-  m_Name: Gladius Sanctus
+  m_Name: Longsword
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
-  itemName: Gladius Sanctus
+  itemName: Longsword
   description: 
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   attacks:
